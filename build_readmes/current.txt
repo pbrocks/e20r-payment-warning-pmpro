@@ -1,2 +1,6 @@
-BUG FIX: Incorrect class type for try/catch operations in Stripe.com gateway add-on
-BUG FIX: Incorrect class type for try/catch operations in Check gateway add-on
+ENHANCEMENT: Add "purge records from local DB when stale" option on Payment Warnings settings page
+ENHANCEMENT: Optionally trigger purge operation using 'e20r-payment-warning-clear-old-records' filter with the new setting
+ENHANCEMENT: Add admin configurable purge operation at end of Payments info download job
+ENHANCEMENT: Add admin configurable purge operation at end of Subscription info download job
+ENHANCEMENT: Clarify debug message in Handle_Messages::complete() method
+BUG FIX: Incorrect version number when 'e20rpw_db_version' option isn't set

@@ -4,7 +4,7 @@ E20R Payment Warning for PMPro
     Tags: pmpro, membership, recurring payment warning, paid memberships pro, membership management, payment warning
     Requires at least: 4.8
     Tested up to: 4.9.2
-    Stable tag: 3.4
+    Stable tag: 3.5
 
 
 Generates and sends notices to active Paid Memberships Pro members about their upcoming recurring payment, their expiring memberships, and required updates to their credit card information. The plugin receives its data directly from the supported payment gateway which makes it more reliable and consistent in sending email warnings/notices to your members.
@@ -122,6 +122,15 @@ If you sponsor the development of gateway support you will receive forum support
 
 Changelog
 ------------
+
+###v3.5
+
+* ENHANCEMENT: Add 'purge records from local DB when stale' option on Payment Warnings settings page
+* ENHANCEMENT: Optionally trigger purge operation using 'e20r-payment-warning-clear-old-records' filter with the new setting
+* ENHANCEMENT: Add admin configurable purge operation at end of Payments info download job
+* ENHANCEMENT: Add admin configurable purge operation at end of Subscription info download job
+* ENHANCEMENT: Clarify debug message in Handle_Messages::complete() method
+* BUG FIX: Incorrect version number when 'e20rpw_db_version' option isn't set
 
 ###v3.4
 

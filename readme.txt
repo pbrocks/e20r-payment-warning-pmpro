@@ -3,7 +3,7 @@ Contributors: eighty20results
 Tags: pmpro, membership, recurring payment warning, paid memberships pro, membership management, payment warning,
 Requires at least: 4.8
 Tested up to: 4.9.2
-Stable tag: 3.4
+Stable tag: 3.5
 PHP Version: 5.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -117,6 +117,15 @@ Adding more gateways is on the roadmap, but will require sponsorships. You can s
 If you sponsor the development of gateway support you will receive forum support for the lifespan of this plugin, plus a lifetime license key for one website of yours for all available and future plugin features.
 
 = Changelog =
+
+== v3.5 ==
+
+* ENHANCEMENT: Add 'purge records from local DB when stale' option on Payment Warnings settings page
+* ENHANCEMENT: Optionally trigger purge operation using 'e20r-payment-warning-clear-old-records' filter with the new setting
+* ENHANCEMENT: Add admin configurable purge operation at end of Payments info download job
+* ENHANCEMENT: Add admin configurable purge operation at end of Subscription info download job
+* ENHANCEMENT: Clarify debug message in Handle_Messages::complete() method
+* BUG FIX: Incorrect version number when 'e20rpw_db_version' option isn't set
 
 == v3.4 ==
 
