@@ -831,17 +831,15 @@ class PayPal_Gateway_Addon extends E20R_PW_Gateway_Addon {
 				
 				$utils->log( "Accessing PayPal API service for {$cust_id}" );
 				
-				// $subscription = $this->gateway->TransactionSearch( $find_trans );
 				/**
 				 * @var GetRecurringPaymentsProfileDetailsResponseType $response
 				 */
 				$response     = $this->gateway->GetRecurringPaymentsProfileDetails( $find_recurring );
+				
 				/**
 				 * @var GetRecurringPaymentsProfileDetailsResponseDetailsType $subscription
 				 */
 				$subscription = $response->GetRecurringPaymentsProfileDetailsResponseDetails;
-				
-				$utils->log( "Subscription data from PayPal: " . print_r( $subscription, true ) );
 				
 			} catch ( \Exception $exception ) {
 				
@@ -1145,8 +1143,6 @@ class PayPal_Gateway_Addon extends E20R_PW_Gateway_Addon {
 				 * @var PaymentTransactionType $charge
 				 */
 				$charge = $transaction_data->PaymentTransactionDetails;
-				
-				$utils->log( "Transaction from PayPal related to {$transaction_id}" . print_r( $charge, true ) );
 				
 			} catch ( \Exception $exception ) {
 				
