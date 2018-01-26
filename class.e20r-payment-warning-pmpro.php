@@ -411,6 +411,12 @@ if ( ! class_exists( 'E20R\Payment_Warning\Payment_Warning' ) ) {
 			add_filter( 'e20r-email-notice-footer-company-name', array( $this, 'get_company_name' ), 10, 2 );
 			add_filter( 'e20r-email-notice-footer-company-address', array( $this, 'get_company_address' ), 10, 2 );
 			add_filter( 'e20r-email-notice-footer-text', array( $this, 'load_unsubscribe_notice' ), 10, 2 );
+			
+			if ( true === (bool) $this->load_options( 'enable_clear_old_data' ) ) {
+				
+				$utils->log("Enable deletion of old/stale records in local DB when cron job(s) complete");
+				add_filter( 'e20r-payment-warning-clear-old-records', '__return_true' );
+			}
 		}
 		
 		/**
@@ -566,6 +572,7 @@ if ( ! class_exists( 'E20R\Payment_Warning\Payment_Warning' ) ) {
 			return array(
 				'deactivation_reset'            => false,
 				'enable_gateway_fetch'          => false,
+				'enable_clear_old_data'         => false,
 				'enable_expiration_warnings'    => false,
 				'enable_payment_warnings'       => false,
 				'enable_cc_expiration_warnings' => false,
@@ -857,6 +864,15 @@ if ( ! class_exists( 'E20R\Payment_Warning\Payment_Warning' ) ) {
 				'e20r-payment-warning-settings',
 				'e20r_pw_global',
 				array( 'option_name' => 'deactivation_reset' )
+			);
+			
+			add_settings_field(
+				'e20r_pw_clear_old_data',
+				__( "Remove old data", Payment_Warning::plugin_slug ),
+				array( $this, 'render_checkbox' ),
+				'e20r-payment-warning-settings',
+				'e20r_pw_global',
+				array( 'option_name' => 'enable_clear_old_data' )
 			);
 			
 			add_settings_field(
