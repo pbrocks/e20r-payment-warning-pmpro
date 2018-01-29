@@ -378,7 +378,12 @@ class PayPal_Gateway_Addon extends E20R_PW_Gateway_Addon {
 			'billing_period'    => $util->get_variable( 'period_type', null ),
 		);
 		
-		$this->ipn_cc_info = array();
+		$this->ipn_cc_info = array(
+			'last4' => null,
+			'exp_month' => null,
+			'exp_year' => null,
+			'brand' => null,
+		);
 		
 		$txn_info['customer'] = $this->ipn_customer;
 		$txn_info['payment']  = $this->ipn_payment_info;
@@ -524,6 +529,9 @@ class PayPal_Gateway_Addon extends E20R_PW_Gateway_Addon {
 			return false;
 		}
 		
+		/**
+		 * Remove local Payment Warning data for PayPal gateway and user
+		 */
 		if ( 'delete' === $operation ) {
 			$util->log( "Will be removing subscription data for {$this->ipn_payment_info['subscription_id']}/{$customer_id}/{$user->user_email}" );
 			
@@ -535,6 +543,9 @@ class PayPal_Gateway_Addon extends E20R_PW_Gateway_Addon {
 			return true;
 		}
 		
+		/**
+		 * Add new subscription plan info from PayPal gateway as local Payment Warning data
+		 */
 		if ( 'add' === $operation ) {
 			
 			$util->log( "Wanting to add a new subscription for user {$customer_id}/{$user->ID}" );
@@ -610,8 +621,14 @@ class PayPal_Gateway_Addon extends E20R_PW_Gateway_Addon {
 			}
 		}
 		
+		/**
+		 * Update subscription plan info from PayPal gateway as local Payment Warning data
+		 */
 		if ( 'update' === $operation ) {
 			$util->log("Don't know how to handle a PayPal IPN request to update the subscription yet!");
+			$util->log("Payment info: " . print_r( $this->ipn_payment_info, true ) );
+			$util->log("Payer info: " . print_r( $this->ipn_customer, true ) );
+			$util->log("Payment Method info: " . print_r( $this->ipn_cc_info, true ) );
 		}
 		
 		
