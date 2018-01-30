@@ -143,6 +143,7 @@ class Handle_Payments extends E20R_Background_Process {
 	 * performed, or, call parent::complete().
 	 *
 	 * @since 1.9.4 - ENHANCEMENT: Remove Non-recurring payment data fetch lock w/error checking & messages to dashboard
+	 * @since 3.7 - ENHANCEMENT: Only remove records if we're configured to do so
 	 */
 	protected function complete() {
 		parent::complete();
@@ -154,8 +155,12 @@ class Handle_Payments extends E20R_Background_Process {
 			$util->add_message( sprintf( __( 'Unable to clear lock after loading Payment data for %s', Payment_Warning::plugin_slug ), $this->type ), 'error', 'backend' );
 		}
 		
-		$util->log("Removing old and stale payment user data for Payment Warnings plugin");
-		$this->clear_old_payment_records();
+		$util->log( "Remove old and stale payment user data for Payment Warnings plugin?" );
+		if ( true === apply_filters( 'e20r-payment-warning-clear-old-records', false ) ) {
+			
+			$util->log( "Yes, we're wanting to remove the records");
+			$this->clear_old_payment_records();
+		}
 		
 		$util->log( "Completed remote payment/charge data fetch for all active gateways" );
 	}
@@ -198,16 +203,14 @@ class Handle_Payments extends E20R_Background_Process {
 			
 			$utils->log("Credit Card SQL to use: " . $cc_sql );
 			
-			if ( true === apply_filters( 'e20r-payment-warning-clear-old-records', false ) ) {
-				
-				if ( false === $wpdb->query( $cc_sql ) ) {
-					$utils->log("Error clearing Credit Card info from local cache!");
-				}
-				
-				if ( false === $wpdb->query( $delete_sql ) ) {
-					$utils->log("Error clearing recurring payment records from local cache");
-				}
+			if ( false === $wpdb->query( $cc_sql ) ) {
+				$utils->log("Error clearing Credit Card info from local cache!");
 			}
+			
+			if ( false === $wpdb->query( $delete_sql ) ) {
+				$utils->log("Error clearing recurring payment records from local cache");
+			}
+			
 		} else {
 			$utils->log("No recurring payment user data to purge");
 		}
